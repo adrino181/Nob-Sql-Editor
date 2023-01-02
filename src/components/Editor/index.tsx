@@ -2,13 +2,10 @@ import React, { useState, useRef } from "react";
 import AceEditor from "react-ace";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-min-noconflict/mode-mysql";
-import "ace-builds/src-noconflict/theme-monokai";
-import { Button, Box, IconButton } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import "ace-builds/src-noconflict/theme-tomorrow";
+import { Box, IconButton } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { format } from "sql-formatter";
-import { ConstructionOutlined } from "@mui/icons-material";
 
 interface EditorProps {
   isOpen: any;
@@ -29,6 +26,7 @@ const Editor = (props: EditorProps) => {
     if (value) {
       try {
         let queryString = format(value, { language: "mysql" });
+        console.log("formated query", String(queryString));
         onRun(queryString);
       } catch (e) {
         console.log("eror in query", e);
@@ -60,11 +58,10 @@ const QueryInut = (props: InputProps) => (
   <AceEditor
     aria-label="editor"
     mode="mysql"
-    theme="monokai"
+    theme="tomorrow"
     name="editor"
-    fontSize={16}
-    minLines={1}
-    maxLines={3}
+    fontSize={20}
+    maxLines={1}
     width="100%"
     showPrintMargin={false}
     showGutter
@@ -74,6 +71,7 @@ const QueryInut = (props: InputProps) => (
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
       enableSnippets: true,
+      showLineNumbers: false,
     }}
     value={props.value}
     onChange={props.onChange}

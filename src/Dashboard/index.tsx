@@ -1,43 +1,43 @@
 import React, { useRef } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+import {
+  Box,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  IconButton,
+  Container,
+  Grid,
+  Paper,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems } from "./listItems";
+import HistoryList, { mainListItems } from "./components/listItems";
 import Editor from "../components/Editor";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import Drawer from "../components/Drawer";
 import AppBar from "./components/AppBar";
-import Button from "@mui/material/Button";
 import ToolKit from "./components/ToolKit";
+import useSqlite from "../hooks/useSqlite";
+import Table from "../components/Table";
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
   const [query, setQuery] = React.useState<string>();
   const [queryHistory, setQueryHistory] = React.useState<string[]>([]);
+  const [tableData, setTableData] = React.useState<any>();
   const toolTipRef = useRef<HTMLInputElement | null>(null);
-
+  const { dbInstance, warning, connection } = useSqlite();
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   const onRun = (query: string) => {
     if (query && queryHistory) {
-      if (window) {
+      if (dbInstance) {
+        const res = dbInstance.exec(query);
+        setTableData(res);
       }
-      console.log(query, window);
       setQueryHistory([query, ...queryHistory]);
     }
   };
@@ -91,13 +91,8 @@ function DashboardContent() {
         <List component="nav">
           {mainListItems}
           <Divider sx={{ my: 1 }} />
-          {queryHistory.map((item) => (
-            <ListItemButton>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary={item} />
-            </ListItemButton>
+          {queryHistory.map((item, index) => (
+            <HistoryList item={item} key={index} />
           ))}
         </List>
       </Drawer>
@@ -147,25 +142,13 @@ function DashboardContent() {
                 </Box>
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
-            {/*<Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                <Deposits />
-              </Paper>
-              </Grid>*/}
-            {/* Recent Orders */}
-            {/*<Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Orders />
-              </Paper>
-              </Grid>*/}
+            {tableData && (
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                  <Table data={tableData} />
+                </Paper>
+              </Grid>
+            )}
           </Grid>
         </Container>
       </Box>

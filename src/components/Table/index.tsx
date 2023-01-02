@@ -1,18 +1,24 @@
 import React from "react";
 import useData from "../../hooks/useData";
 
+type tableData = {
+  value: Array<object>;
+  column: Array<object>;
+};
 type Props = {
-  query: string;
+  data: tableData;
 } & typeof defaultProps;
 
 const defaultProps = {
-  query: "",
+  data: {
+    value: [],
+    column: [],
+  },
 };
 
-const GGTable = (props: Props) => {
-  const { data, runtime, error } = useData(props.query);
-  console.log("GG,Table");
+const Table = (props: Props) => {
+  console.log("GG,Table", props.data);
   return <></>;
 };
 
-export default GGTable;
+export default Table;

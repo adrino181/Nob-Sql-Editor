@@ -5,8 +5,8 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Title from "../components/Title";
-import GGTable from "../components/Table";
+import Title from "../../components/Title";
+import GGTable from "../../components/Table";
 
 // Generate Order Data
 function createData(
@@ -70,7 +70,6 @@ function preventDefault(event: React.MouseEvent) {
 export default function Orders() {
   return (
     <React.Fragment>
-      <GGTable query="" />
       <Title>Recent Orders</Title>
       <Table size="small">
         <TableHead>
