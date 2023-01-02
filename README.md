@@ -1,10 +1,10 @@
-# SQL query editor inspiration and a front end wrapper
+# Nob-Sql-Editor
 
-# Written in TS with Material UI and React
+# Playground for sqljs, alasql, ace editor
 
 ## Usage
 
-Install it and run:
+Made on node v14.17
 
 ```sh
 yarn
