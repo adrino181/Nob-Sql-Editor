@@ -12,16 +12,6 @@ View the demo at .
 
 https://nob-sql-editor.netlify.app/
 
-    or
-
-Download the example [or clone the repo]():
-
-<!-- #default-branch-switch -->
-
-```sh
-
-```
-
 ## Usage
 
 ## Build
