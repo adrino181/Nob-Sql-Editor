@@ -2,17 +2,6 @@
 
 # Playground for sqljs, alasql, ace editor
 
-## Usage
-
-Made on node v14.17
-
-```sh
-yarn
-yarn start
-yarn test
-yarn build
-```
-
 <!-- #default-branch-switch -->
 
 ## Demo
@@ -21,10 +10,27 @@ yarn build
 
 View the demo at .
 
+https://nob-sql-editor.netlify.app/
+
+    or
+
 Download the example [or clone the repo]():
 
 <!-- #default-branch-switch -->
 
 ```sh
 
+```
+
+## Usage
+
+## Build
+
+Made on node v14.17
+
+```sh
+yarn
+yarn start
+yarn test
+yarn build
 ```
