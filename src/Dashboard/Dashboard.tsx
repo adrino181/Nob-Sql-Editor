@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useRef } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -21,6 +21,11 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
 import Editor from "../components/Editor";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 function Copyright(props: any) {
   return (
@@ -92,8 +97,21 @@ const Drawer = styled(MuiDrawer, {
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
+  const [query, setQuery] = React.useState<string>();
+  const [queryHistory, setQueryHistory] = React.useState<string[]>([]);
+  const toolTipRef = useRef<HTMLInputElement | null>(null);
+
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const onRun = (query: string) => {
+    if (query && queryHistory) {
+      if (window) {
+      }
+      console.log(query, window);
+      setQueryHistory([query, ...queryHistory]);
+    }
   };
 
   return (
@@ -145,7 +163,14 @@ function DashboardContent() {
         <List component="nav">
           {mainListItems}
           <Divider sx={{ my: 1 }} />
-          {secondaryListItems}
+          {queryHistory.map((item) => (
+            <ListItemButton>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary={item} />
+            </ListItemButton>
+          ))}
         </List>
       </Drawer>
       <Box
@@ -171,20 +196,21 @@ function DashboardContent() {
                   display: "flex",
                   flexDirection: "column",
                   height: 240,
+                  cursor: "pointer",
                 }}
+                ref={toolTipRef}
               >
                 {
                   <Editor
                     setQuery={() => {}}
-                    value={null}
-                    setValue={() => {}}
                     isOpen={undefined}
+                    onRun={onRun}
                   />
                 }
               </Paper>
             </Grid>
             {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
+            {/*<Grid item xs={12} md={4} lg={3}>
               <Paper
                 sx={{
                   p: 2,
@@ -195,15 +221,14 @@ function DashboardContent() {
               >
                 <Deposits />
               </Paper>
-            </Grid>
+              </Grid>*/}
             {/* Recent Orders */}
-            <Grid item xs={12}>
+            {/*<Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                 <Orders />
               </Paper>
-            </Grid>
+              </Grid>*/}
           </Grid>
-          <Copyright sx={{ pt: 4 }} />
         </Container>
       </Box>
     </Box>
