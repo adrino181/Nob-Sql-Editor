@@ -11,25 +11,35 @@ interface EditorProps {
   isOpen: any;
   setQuery: Function;
   onRun: Function;
+  setLogs: Function;
 }
 
 const Editor = (props: EditorProps) => {
-  const { setQuery, isOpen, onRun } = props || {};
+  const { setQuery, isOpen, onRun, setLogs } = props || {};
   const [value, setValue] = useState<string>("");
   const onChange = (newValue: any) => {
     setValue(newValue);
   };
 
   const onSubmit = () => {
-    // var Z = value.toLowerCase().slice(value.indexOf("from") + "from".length);
-    // setQuery(Z.split(" ")[1]);
     if (value) {
       try {
         let queryString = format(value, { language: "mysql" });
-        console.log("formated query", String(queryString));
         onRun(queryString);
+        setLogs({
+          title: "Success",
+          subtitle: `Query ran success fully  ${queryString}`,
+          logType: "success",
+        });
       } catch (e) {
-        console.log("eror in query", e);
+        if (e instanceof Error) {
+          setLogs({
+            title: "Error",
+            subtitle: e.message || "",
+            logType: "error",
+            strong: "Error in Query",
+          });
+        }
       }
     }
   };
@@ -41,8 +51,9 @@ const Editor = (props: EditorProps) => {
         onClick={onSubmit}
         aria-label="upload picture"
         component="label"
+        size="large"
       >
-        <PlayCircleIcon />
+        <PlayCircleIcon fontSize="large" />
       </IconButton>
       <QueryInut value={value} onChange={onChange} />
     </Box>

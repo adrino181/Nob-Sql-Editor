@@ -14,12 +14,13 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import HistoryList, { mainListItems } from "./components/listItems";
-import Editor from "../components/Editor";
+
 import Drawer from "../components/Drawer";
 import AppBar from "./components/AppBar";
-import ToolKit from "./components/ToolKit";
 import useSqlite from "../hooks/useSqlite";
 import Table from "../components/Table";
+import QueryEditor from "./components/QueryEditor";
+import DemoList from "./components/demoListItems";
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
@@ -36,7 +37,11 @@ function DashboardContent() {
     if (query && queryHistory) {
       if (dbInstance) {
         const res = dbInstance.exec(query);
-        setTableData(res);
+        if (res) {
+          setTableData(res[0]);
+        } else {
+          console.log("error in response", res);
+        }
       }
       setQueryHistory([query, ...queryHistory]);
     }
@@ -48,7 +53,7 @@ function DashboardContent() {
       <AppBar position="absolute" open={open}>
         <Toolbar
           sx={{
-            pr: "24px", // keep right padding when drawer closed
+            pr: "24px",
           }}
         >
           <IconButton
@@ -111,39 +116,11 @@ function DashboardContent() {
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
-            {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  cursor: "pointer",
-                  position: "relative",
-                }}
-                ref={toolTipRef}
-              >
-                {
-                  <Editor
-                    setQuery={() => {}}
-                    isOpen={undefined}
-                    onRun={onRun}
-                  />
-                }
-                <Box
-                  style={{
-                    position: "absolute",
-                    bottom: "0",
-                    right: "0",
-                    height: "30px",
-                  }}
-                >
-                  <ToolKit />
-                </Box>
-              </Paper>
+              <QueryEditor onRun={onRun} />
             </Grid>
             {tableData && (
-              <Grid item xs={12}>
+              <Grid item xs={12} md={8} lg={9}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <Table data={tableData} />
                 </Paper>
@@ -151,6 +128,11 @@ function DashboardContent() {
             )}
           </Grid>
         </Container>
+      </Box>
+      <Box style={{ width: "300px", height: "100vh", overflow: "auto" }}>
+        <List component="nav">
+          <DemoList onRun={onRun} />
+        </List>
       </Box>
     </Box>
   );
