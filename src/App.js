@@ -1,5 +1,5 @@
 import React from "react";
-import Dashboard from "./dashboard";
+import Dashboard from "./main";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 
