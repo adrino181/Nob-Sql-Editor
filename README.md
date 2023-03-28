@@ -18,6 +18,15 @@ On the base it uses sqlite on the client side which is accessed with the help of
 
 You might need to do some changes in webpack to build it in your folder but follow sql.js documentation for it.
 
+This config helped me, in webpack.config.js
+ module: {
+      strictExportPresence: true,
+      rules: [
+        {
+          test: /\.wasm$/,
+          type: 'javascript/auto',
+      },
+
 ## Build
 
 Made on node v14.17
