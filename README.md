@@ -2,6 +2,9 @@
 
 # Playground for SQL on client side in React.
 
+## About Project
+It has implementation of React and Sql.js, A editor to play around live demo and try sql, for sql formatting also there are some implementation and a basic layout to modify it.
+
 <!-- #default-branch-switch -->
 
 ## Demo
