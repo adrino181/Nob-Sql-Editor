@@ -17,7 +17,7 @@ https://nob-sql-editor.netlify.app/
 
 ## Usage
 
-On the base it uses sqlite on the client side which is accessed with the help of sql.js. Sql.js compiles it to WASM module.
+On the base it uses sqlite on the client side which is accessed with the help of sql.js. Sql.js runs on wasm time.
 
 You might need to do some changes in webpack to build it in your folder but follow sql.js documentation for it.
 
